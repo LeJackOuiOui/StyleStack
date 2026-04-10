@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/track.dart';
+import '../models/clothing.dart';
 
 class MusicService {
   // URL base de iTunes Search
