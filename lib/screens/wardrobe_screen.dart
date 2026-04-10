@@ -5,7 +5,7 @@ import '../providers/wardrove_provider.dart';
 import '../models/clothing.dart';
 
 class WardrobeScreen extends StatefulWidget {
-  const WardrobeScreen({super.key});
+  const WardrobeScreen({Key? key}) : super(key: key);
 
   @override
   State<WardrobeScreen> createState() => _WardrobeScreenState();
@@ -13,6 +13,15 @@ class WardrobeScreen extends StatefulWidget {
 
 class _WardrobeScreenState extends State<WardrobeScreen> {
   String _selectedCategory = 'Todos';
+
+  @override
+  void initState() {
+    super.initState();
+    // Esto dispara la carga de la API en el Provider al iniciar la pantalla
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<WardrobeProvider>().loadApiClothing();
+    });
+  }
 
   final List<String> _categories = [
     'Todos',
