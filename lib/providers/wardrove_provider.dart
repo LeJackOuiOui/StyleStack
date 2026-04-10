@@ -69,6 +69,27 @@ class WardrobeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ─── MARCAR / DESMARCAR OUTFIT FAVORITO (con vibración) ──────────────────
+  Future<void> toggleFavouriteOutfit(Clothing item) async {
+    final isFav = _favouriteOutfits.any((c) => c.id == item.id);
+    if (isFav) {
+      _favouriteOutfits.removeWhere((c) => c.id == item.id);
+    } else {
+      _favouriteOutfits.add(item);
+    }
+
+    // Feedback háptico al marcar favorito
+    if (await Vibration.hasVibrator() ?? false) {
+      Vibration.vibrate(duration: 40, amplitude: 100);
+    }
+
+    _saveToDisk();
+    notifyListeners();
+  }
+
+  bool isFavourite(Clothing item) =>
+      _favouriteOutfits.any((c) => c.id == item.id);
+
   // ─── OUTFIT SUGERIDO (el "MiniPlayer") ───────────────────────────────────
   void setSuggestedOutfit(Clothing? item) {
     _suggestedOutfit = item;
