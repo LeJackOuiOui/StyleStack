@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:vibration/vibration.dart';
-import '../providers/wardrobe_provider.dart';
+import '../providers/wardrove_provider.dart';
 
 class ShakeDetector extends StatefulWidget {
   final Widget child;
