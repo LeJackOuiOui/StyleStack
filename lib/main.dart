@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:mi_primer_proyecto/providers/favourites_provider.dart';
-import 'package:mi_primer_proyecto/providers/music_provider.dart';
+import 'package:mi_primer_proyecto/providers/wardrove_provider.dart';
 import 'package:mi_primer_proyecto/providers/profile_provider.dart';
+import 'package:mi_primer_proyecto/providers/theme_provider.dart';
 import 'package:mi_primer_proyecto/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 
-void main(){
+void main() {
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => FavouritesProvider()),
-      // Agregar el nuevo proveedor
-      ChangeNotifierProvider(create: (_) => ProfileProvider()),
-      ChangeNotifierProvider(create: (_) => MusicProvider()),
-    ],
-    child: const SenaBeatsApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => WardrobeProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+      ],
+      child: const StyleStackApp(),
     ),
   );
 }
 
-class SenaBeatsApp extends StatelessWidget {
-  const SenaBeatsApp({super.key});
+class StyleStackApp extends StatelessWidget {
+  const StyleStackApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'SENA Canciones',
-
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blueGrey,
-        useMaterial3: true,
-      ),
-      home: MainScreen(),
+      title: 'StyleStack',
+      theme: themeProvider.themeData,
+      home: const MainScreen(),
     );
   }
 }
