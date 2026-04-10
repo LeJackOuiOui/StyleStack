@@ -1,42 +1,42 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/clothing.dart';
+import '../themes/app_themes.dart';
 
-class FavouritesProvider extends ChangeNotifier {
-  List<Track> _favourites = [];
-  List<Track> get favourites => _favourites;
+class ThemeProvider extends ChangeNotifier {
+  // Tema por defecto: Antracita (oscuro)
+  AppThemeOption _current = AppThemes.all.firstWhere(
+    (t) => t.id == 'dark_anthracite',
+  );
 
-  FavouritesProvider (){
-    _loadFromDisk(); // Cargar los favoritos al iniciar la app
+  AppThemeOption get current => _current;
+  ThemeData get themeData => _current.data;
+
+  ThemeProvider() {
+    _loadFromDisk();
   }
 
-  void toggleFavourite(Track track){
-    final isExist = _favourites.any((t) => t.id == track.id);
-    if (isExist){
-      _favourites.removeWhere((t) => t.id == track.id);
-    } else {
-      _favourites.add(track);
-    }
-    _saveToDisk();
-    notifyListeners(); // Avisar a todas las demas screens
+  void setTheme(String id) {
+    final found = AppThemes.all.where((t) => t.id == id);
+    if (found.isEmpty) return;
+    _current = found.first;
+    _saveToDisk(id);
+    notifyListeners();
   }
 
-  // Logica para la persistencia
-
-  void _saveToDisk() async {
+  Future<void> _saveToDisk(String id) async {
     final prefs = await SharedPreferences.getInstance();
-    final String data = json.encode(_favourites.map((t) => t.toMap()).toList());
-    await prefs.setString('my_favourites', data);
+    await prefs.setString('selected_theme', id);
   }
 
-  void _loadFromDisk() async {
+  Future<void> _loadFromDisk() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? data = prefs.getString('my_favourites');
-    if (data != null){
-      final List decoded = json.decode(data);
-      _favourites = decoded.map((m) => Track.fromMap(m)).toList();
-      notifyListeners();
+    final savedId = prefs.getString('selected_theme');
+    if (savedId != null) {
+      final found = AppThemes.all.where((t) => t.id == savedId);
+      if (found.isNotEmpty) {
+        _current = found.first;
+        notifyListeners();
+      }
     }
   }
 }
