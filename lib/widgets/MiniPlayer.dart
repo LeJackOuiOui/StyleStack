@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/music_provider.dart';
+import '../providers/wardrove_provider.dart';
 
 class MiniPlayer extends StatelessWidget {
   const MiniPlayer({super.key});
@@ -27,7 +27,12 @@ class MiniPlayer extends StatelessWidget {
       child: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Image.network(track.image, width: 50, height: 50, fit: BoxFit.cover),
+          child: Image.network(
+            track.image,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
         ),
         title: Text(track.title, maxLines: 1, overflow: TextOverflow.ellipsis),
         subtitle: Text(track.artist, maxLines: 1),
@@ -36,13 +41,16 @@ class MiniPlayer extends StatelessWidget {
           children: [
             // BOTÓN PLAY / PAUSA
             IconButton(
-              icon: Icon(musicProvider.isPlaying ? Icons.pause : Icons.play_arrow),
+              icon: Icon(
+                musicProvider.isPlaying ? Icons.pause : Icons.play_arrow,
+              ),
               onPressed: () => musicProvider.playTrack(track),
             ),
             // BOTÓN CERRAR (X)
             IconButton(
               icon: const Icon(Icons.close),
-              onPressed: () => musicProvider.stop(), // Detiene y limpia el track
+              onPressed: () =>
+                  musicProvider.stop(), // Detiene y limpia el track
             ),
           ],
         ),
