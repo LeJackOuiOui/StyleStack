@@ -101,6 +101,14 @@ class WardrobeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ─── SHAKE TO RANDOMIZE ──────────────────────────────────────────────────
+  void randomizeOutfit() {
+    if (_wardrobe.isEmpty) return;
+    _wardrobe.shuffle();
+    _suggestedOutfit = _wardrobe.first;
+    notifyListeners();
+  }
+
   // ─── FILTRAR POR CATEGORÍA ────────────────────────────────────────────────
   List<Clothing> getByCategory(String category) {
     if (category == 'Todos') return _wardrobe;
