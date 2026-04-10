@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../services/music_service.dart';
 import '../providers/favourites_provider.dart';
 import '../providers/music_provider.dart'; // <--- 1. Importa el nuevo proveedor
-import '../models/track.dart';
+import '../models/clothing.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
